@@ -31,7 +31,11 @@ class ContactDetailViewController: UIViewController, UITextFieldDelegate {
     func saveContact(contact: String, email: String?, phone: String?) {
         ContactController.shared.createContact(name: contact, email: email, phone: phone) { (success) in
             if success {
-                self.updateViews()
+                DispatchQueue.main.async {
+                    sleep(5)
+                    self.updateViews()
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
         }
     }
@@ -39,7 +43,10 @@ class ContactDetailViewController: UIViewController, UITextFieldDelegate {
     func updateContact(contact: Contact) {
         ContactController.shared.updateContacts(contact: contact) { (success) in
             if success {
-                self.updateViews()
+                DispatchQueue.main.async {
+                    self.updateViews()
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
         }
     }
@@ -58,7 +65,6 @@ class ContactDetailViewController: UIViewController, UITextFieldDelegate {
         } else {
             self.saveContact(contact: name, email: email, phone: phone)
         }
-        self.navigationController?.popViewController(animated: true)
     }
     
     func updateViews() {
